@@ -339,7 +339,7 @@ def plot_airplane_compare_data(sol_nonlinear, sol_linear):
 
 
     ####################3
-def plot_airplane_long(sol, state_des, t_list_des):
+def plot_airplane_long(sol, state_des=[[],[],[],[],[],[],[],[],[],[],[],[]], t_list_des=[]):
     num_ticks = 5
 
     # Translation kinematics
@@ -355,7 +355,7 @@ def plot_airplane_long(sol, state_des, t_list_des):
     plt.yscale("linear")
 
     plt.subplot(2, 3, 2)
-    plt.plot(sol.t, sol.y[2], 'g')
+    plt.plot(sol.t, sol.y[2], 'r')
     plt.plot(t_list_des, state_des[2], 'r--')
     plt.title("z vs time", fontsize = 18)
     if np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]) < 0.01:
@@ -395,7 +395,7 @@ def plot_airplane_long(sol, state_des, t_list_des):
     plt.title("theta vs time", fontsize = 18)
     step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi) *4)/4
     if step_size == 0:
-        step_size = 1/4
+        step_size = 1/8
     start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
     stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
     plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
@@ -412,7 +412,7 @@ def plot_airplane_long(sol, state_des, t_list_des):
     plt.title("q vs time", fontsize = 18)
     step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi) *4)/4
     if step_size == 0:
-        step_size = 1/4
+        step_size = 1/8
     start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
     stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
     plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
@@ -424,7 +424,7 @@ def plot_airplane_long(sol, state_des, t_list_des):
     plt.show()
 
 
-def plot_airplane_lat(sol, state_des, t_list_des):
+def plot_airplane_lat(sol, state_des=[[],[],[],[],[],[],[],[],[],[],[],[]], t_list_des=[]):
     num_ticks = 5
 
     # Translation kinematics
@@ -447,8 +447,8 @@ def plot_airplane_lat(sol, state_des, t_list_des):
 
 
     plt.subplot(2, 3, 2)
-    plt.plot(sol.t, sol.y[4], 'g')
-    plt.plot(t_list_des, state_des[4], 'g--')
+    plt.plot(sol.t, sol.y[4], 'm')
+    plt.plot(t_list_des, state_des[4], 'm--')
     plt.title("v vs time", fontsize = 18)
     if np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]) < 0.1:
         upper_lim = np.ceil(plt.yticks()[0][-1]*10)/10
@@ -466,7 +466,7 @@ def plot_airplane_lat(sol, state_des, t_list_des):
     plt.title("phi vs time", fontsize = 18)
     step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi) *4)/4
     if step_size == 0:
-        step_size = 1/4
+        step_size = 1/8
     start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
     stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
     plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
@@ -480,7 +480,7 @@ def plot_airplane_lat(sol, state_des, t_list_des):
     plt.title("psi vs time", fontsize = 18)
     step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi) *4)/4
     if step_size == 0:
-        step_size = 1/4
+        step_size = 1/8
     start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
     stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
     plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
@@ -490,12 +490,12 @@ def plot_airplane_lat(sol, state_des, t_list_des):
     # Rotational Dynamics
 
     plt.subplot(2, 3, 5)
-    plt.plot(sol.t, sol.y[9], 'b')
-    plt.plot(t_list_des, state_des[9], 'b--')
+    plt.plot(sol.t, sol.y[9], 'c')
+    plt.plot(t_list_des, state_des[9], 'c--')
     plt.title("p vs time", fontsize = 18)
     step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi) *4)/4
     if step_size == 0:
-        step_size = 1/4
+        step_size = 1/8
     start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
     stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
     plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
@@ -504,12 +504,12 @@ def plot_airplane_lat(sol, state_des, t_list_des):
 
 
     plt.subplot(2, 3, 6)
-    plt.plot(sol.t, sol.y[11], 'r')
-    plt.plot(t_list_des, state_des[11], 'r--')
+    plt.plot(sol.t, sol.y[11], 'y')
+    plt.plot(t_list_des, state_des[11], 'y--')
     plt.title("r vs time", fontsize = 18)
     step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi) *4)/4
     if step_size == 0:
-        step_size = 1/4
+        step_size = 1/8
     start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
     stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
     plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
@@ -518,4 +518,94 @@ def plot_airplane_lat(sol, state_des, t_list_des):
 
 
     plt.tight_layout()
+    plt.show()
+
+
+
+
+def plot_airplane_inputs(inputs, time):
+    num_ticks = 3
+
+    # Translation kinematics
+
+    plt.figure(figsize=(6, 4))
+    plt.subplot(2, 2, 1)
+    plt.plot(time, inputs[0], 'r')
+    plt.title("thrust vs time", fontsize = 18)
+    # if np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]) < 0.01:
+    #     upper_lim = np.ceil(plt.yticks()[0][-1]*100)/100
+    #     lower_lim = np.floor(plt.yticks()[0][0]*100)/100
+    #     plt.ylim([lower_lim, upper_lim])
+    # plt.yscale("linear")
+    plt.ylim([0, 50])
+    plt.subplot(2, 2, 2)
+    plt.plot(time, inputs[1], 'b')
+    plt.title("elevator vs time", fontsize = 18)
+    
+    # step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi) *4)/4
+    # if step_size == 0:
+    #     step_size = 1/16
+    # step_size = 1/32
+    # start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
+    # stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
+    # plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
+    #         labels= [r"$" + format(r/np.pi, ".2g")+ r"\pi$" for r in np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size)])
+    plt.yticks(ticks= np.arange(-np.pi/8, np.pi/8 + np.pi/16, np.pi/16), \
+                labels= [r"$" + format(r/np.pi, ".2g")+ r"\pi$" for r in np.arange(-np.pi/8, np.pi/8 + np.pi/16, np.pi/16)])
+    
+
+    plt.subplot(2, 2, 3)
+    plt.plot(time, inputs[2], 'g')
+    plt.title("aileron vs time", fontsize = 18)
+    
+    # step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi))
+    # if step_size == 0:
+    #     step_size = 1/16
+    # step_size = 1/32
+    # start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
+    # stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
+    # plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
+    #         labels= [r"$" + format(r/np.pi, ".2g")+ r"\pi$" for r in np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size)])
+    plt.yticks(ticks= np.arange(-np.pi/8, np.pi/8 + np.pi/16, np.pi/16), \
+                labels= [r"$" + format(r/np.pi, ".2g")+ r"\pi$" for r in np.arange(-np.pi/8, np.pi/8 + np.pi/16, np.pi/16)])
+    
+
+    plt.subplot(2, 2, 4)
+    plt.plot(time, inputs[3], 'm')
+    plt.title("rudder vs time", fontsize = 18)
+    
+    # step_size = np.round((np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]))/(num_ticks*np.pi) *4)/4
+    # print(step_size)
+    # if step_size == 0:
+    #     step_size = 1/16
+    # step_size = 1/32
+    
+    # start_tick = np.floor(plt.yticks()[0][0] / (np.pi*step_size)) * np.pi*step_size
+    # stop_tick = np.ceil(plt.yticks()[0][-1]/ (np.pi*step_size)) * np.pi*step_size
+    # plt.yticks(ticks= np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size), \
+    #         labels= [r"$" + format(r/np.pi, ".2g")+ r"\pi$" for r in np.arange(start_tick, stop_tick+np.pi*step_size, np.pi*step_size)])
+    plt.yticks(ticks= np.arange(-np.pi/8, np.pi/8 + np.pi/16, np.pi/16), \
+                labels= [r"$" + format(r/np.pi, ".2g")+ r"\pi$" for r in np.arange(-np.pi/8, np.pi/8 + np.pi/16, np.pi/16)])
+    
+
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+def plot_wind(x_wind_list, y_wind_list, z_wind_list, time):
+    plt.figure(figsize=(4, 3))
+    plt.plot(time, x_wind_list, 'r', label="x_wind")
+    plt.plot(time, y_wind_list, 'g', label="y_wind")
+    plt.plot(time, z_wind_list, 'b', label="z_wind")
+    plt.legend()
+    plt.title("wind vs time", fontsize = 18)
+    if np.abs(plt.yticks()[0][-1] - plt.yticks()[0][0]) < 0.01:
+        upper_lim = np.ceil(plt.yticks()[0][-1]*100)/100
+        lower_lim = np.floor(plt.yticks()[0][0]*100)/100
+        plt.ylim([lower_lim, upper_lim])
+    plt.yscale("linear")
+    plt.xlabel("time")
+    plt.ylabel("change in aircraft speed (m/s)")
     plt.show()

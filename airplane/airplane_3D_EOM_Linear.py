@@ -44,7 +44,7 @@ def continuous_linearization(state_eq, input_eq):
     q_0 = state_eq[10]
     r_0 = state_eq[11]
 
-    T_0 = input_eq[0]
+    thrust_0 = input_eq[0]
     elevator_0 = input_eq[1]
     aileron_0 = input_eq[2]
     rudder_0 = input_eq[3]

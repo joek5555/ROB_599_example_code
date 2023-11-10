@@ -55,11 +55,11 @@ y_arrow_e = vpython.arrow(axis = vpython.vector(0,1,0), color=vpython.color.blue
 z_arrow_e = vpython.arrow(axis = vpython.vector(0,0,1), color=vpython.color.green, length=-arrow_length, shaftwidth=arrow_thickness)
 
 
-wing_length = params['physical']['c_wing_chord']*2
+wing_length = params['physical']['c_wing_chord']*2 
 wing_height = params['physical']['b_wing_span']
 wing_width = params['physical']['b_wing_span']/20
 
-motor_length = params['physical']['c_wing_chord']*4
+motor_length = params['physical']['c_wing_chord']*4 
 motor_radius =params['physical']['b_wing_span']/10
 
 back_length = wing_height/1.5
@@ -157,52 +157,99 @@ path_pos = np.transpose(Rot_x(rotate_airplane_angle)) @ airplane_pos
 # desired_path = vpython.box(pos = vpython.vector(path_pos[0,0],path_pos[1,0],path_pos[2,0]),\
 #                     color=vpython.color.white, length= 500, \
 #                     height = 0.5, width = 0.5)
-desired_path = vpython.arrow(pos = vpython.vector(path_pos[0,0],path_pos[1,0],path_pos[2,0]),\
-                    color=vpython.color.white, vector= (1,0,0), \
-                    length = 400, shaftwidth=0.5, headwidth = 0.5, headlenght = 0.5)
+# desired_path = vpython.arrow(pos = vpython.vector(path_pos[0,0],path_pos[1,0],path_pos[2,0]),\
+#                     color=vpython.color.white, vector= (1,0,0), \
+#                     length = 373.4, shaftwidth=0.5, headwidth = 0.5, headlenght = 0.5)
 
-desired_path.rotate(axis=vpython.vector(1,0,0), angle=rotate_world_angle)
+# desired_path.rotate(axis=vpython.vector(1,0,0), angle=rotate_world_angle)
 
-desired_path.rotate(axis=vpython.vector(0,0,1), angle=np.pi/6)
-desired_path.rotate(axis=vpython.vector(0,1,0), angle=-np.pi/4)
+# desired_path.rotate(axis=vpython.vector(0,0,1), angle=0.3272)
+# desired_path.rotate(axis=vpython.vector(0,1,0), angle=-np.pi/4)
+
+# way1 = np.transpose(Rot_x(rotate_airplane_angle)) @np.array([50, 50, -120])
+# way2 = np.transpose(Rot_x(rotate_airplane_angle)) @np.array([100, 50, -100])
+# way3 = np.transpose(Rot_x(rotate_airplane_angle)) @np.array([50, 50, -80])
+# waypoints = [way1, way2, way3]
+
+
+# wave
+way1 = np.array([100, 100, -100])
+way2 = np.array([175, 150, -120])
+way3 = np.array([250, 150, -140])
+way4 = np.array([325, 100, -110])
+way5 = np.array([400, 50, -90])
+way6 = np.array([475, 50, -120])
+way7 = np.array([550, 100, -150])
+
+waypoints = [way1, way2, way3, way4, way5, way6, way7]
+
+# helix
+# way1 = np.array([50*2 ,-14*2,  -100])
+# way2 = np.array([86*2,-50*2,  -120])
+# way3 = np.array([100*2,-100*2,  -140])
+# way4 = np.array([86*2,-150*2,  -160])
+# way5 = np.array([50*2,-186*2,  -180])
+# way6 = np.array([0*2, -200*2,  -200])
+# way7 = np.array([-50*2, -186*2,  -220])
+# way8 = np.array([-86*2, -150*2, -240])
+# way9 = np.array([-100*2, -100*2, -260])
+# way10 = np.array([-86*2, -50*2, -280])
+# way11 = np.array([-50*2, -14*2, -300])
+# way12 = np.array([-0, -0, -320])
+
+
+# waypoints = [way1, way2, way3, way4, way5, way6, way7, way8, way9, way10, way11, way12]
+
+spheres = []
+
+waypoint_precision = 5
+
+for waypoint in waypoints:
+    waypoint = np.transpose(Rot_x(rotate_airplane_angle)) @ waypoint
+
+    spheres.append(vpython.sphere(pos=vpython.vector(waypoint[0],waypoint[1],waypoint[2]), radius = waypoint_precision, \
+                           color = vpython.color.magenta, opacity = 0.50))
+
 
 
 scene.camera.follow(wings)
 vpython.sleep(5)
 
-while True:
-    for i in range(1, solution_data.shape[1]):
-        vpython.rate(100)
-        #vpython.rate(500)
-        airplane_pos = np.array([[solution_data[0,i]], [solution_data[1,i]], [solution_data[2,i]]])
-        airplane_rot = vpython.vector(solution_data[6,i], solution_data[7,i], solution_data[8,i])
+#while True:
+for i in range(1, solution_data.shape[1]):
+    vpython.rate(200)
 
-        for count, airplane_part in enumerate(airplane_sections):
+    #vpython.rate(500)
+    airplane_pos = np.array([[solution_data[0,i]], [solution_data[1,i]], [solution_data[2,i]]])
+    airplane_rot = vpython.vector(solution_data[6,i], solution_data[7,i], solution_data[8,i])
 
-            axis_vec_earth = vpython.vector(np.cos(airplane_rot.z)*np.cos(airplane_rot.y), np.sin(airplane_rot.y), \
-                np.sin(airplane_rot.z) * np.cos(airplane_rot.y))
-            y_vec = vpython.vector(0,1,0)
-            s_vec = vpython.cross(axis_vec_earth, y_vec)
-            v_vec = vpython.cross(s_vec, axis_vec_earth)
-            up_vec_earth = v_vec * vpython.cos(airplane_rot.x + rotate_airplane_angle + airplane_angle[count]) + \
-                vpython.cross(axis_vec_earth, v_vec) * vpython.sin(airplane_rot.x + rotate_airplane_angle + airplane_angle[count])
+    for count, airplane_part in enumerate(airplane_sections):
 
-            airplane_part.axis = axis_vec_earth
-            airplane_part.up = up_vec_earth
+        axis_vec_earth = vpython.vector(np.cos(airplane_rot.z)*np.cos(airplane_rot.y), np.sin(airplane_rot.y), \
+            np.sin(airplane_rot.z) * np.cos(airplane_rot.y))
+        y_vec = vpython.vector(0,1,0)
+        s_vec = vpython.cross(axis_vec_earth, y_vec)
+        v_vec = vpython.cross(s_vec, axis_vec_earth)
+        up_vec_earth = v_vec * vpython.cos(airplane_rot.x + rotate_airplane_angle + airplane_angle[count]) + \
+            vpython.cross(axis_vec_earth, v_vec) * vpython.sin(airplane_rot.x + rotate_airplane_angle + airplane_angle[count])
 
-            airplane_part.length = airplane_lengths[count]
-            airplane_part.height = airplane_heights[count]
-            airplane_part.width = airplane_widths[count]
+        airplane_part.axis = axis_vec_earth
+        airplane_part.up = up_vec_earth
+
+        airplane_part.length = airplane_lengths[count]
+        airplane_part.height = airplane_heights[count]
+        airplane_part.width = airplane_widths[count]
 
 
-            displacement =  np.transpose(Rot_z(airplane_rot.z)) @ np.transpose(Rot_y(airplane_rot.y)) @ np.transpose(Rot_x(airplane_rot.x))@ airplane_displacements[count]
-            displacement =  np.transpose(Rot_x(rotate_airplane_angle)) @ displacement
-            position = np.transpose(Rot_x(rotate_airplane_angle)) @ airplane_pos
-            airplane_part.pos=vpython.vector(position[0,0], position[1,0], position[2,0])+ vpython.vector(displacement[0,0], displacement[1,0], displacement[2,0])
+        displacement =  np.transpose(Rot_z(airplane_rot.z)) @ np.transpose(Rot_y(airplane_rot.y)) @ np.transpose(Rot_x(airplane_rot.x))@ airplane_displacements[count]
+        displacement =  np.transpose(Rot_x(rotate_airplane_angle)) @ displacement
+        position = np.transpose(Rot_x(rotate_airplane_angle)) @ airplane_pos
+        airplane_part.pos=vpython.vector(position[0,0], position[1,0], position[2,0])+ vpython.vector(displacement[0,0], displacement[1,0], displacement[2,0])
 
-        if i == 1:
-             wings.clear_trail()
-    
+    if i == 1:
+            wings.clear_trail()
+
+scene.camera.follow(None) 
     
     # vec = np.array([[0],[1],[0]])
     # airplane_part_up = vec*np.cos(airplane_rot.x+rotate_airplane_angle) + \
@@ -249,3 +296,9 @@ while True:
         #     airplane_part.pos=vpython.vector(position[0,0], position[1,0], position[2,0])+ vpython.vector(displacement[0,0], displacement[1,0], displacement[2,0])
 
         # print(rear_right.axis)
+
+
+
+# def MPC_controller(state, input_init, dt):
+#     Q_lat = 
+#     R_lat= 
